@@ -1,0 +1,18 @@
+.center {
+  margin: 350px auto;
+  width: 250px;
+  padding: 10px;
+}
+
+ul {
+  padding-inline-start: 0px;
+}
+
+li {
+  list-style: none;
+}
+
+button, input {
+  padding: 5px;
+  margin: 5px;
+}

@@ -1,0 +1,15 @@
+<div class="center">
+  <form [formGroup]="loginForm" #f="ngForm" (ngSubmit)="onAuthenticate(f)" novalidate>
+    <ul>
+      <li>
+        <input type="text" formControlName="username" required  placeholder="username">
+      </li>
+      <li>
+        <input type="password" formControlName="password" required placeholder="password">
+      </li>
+      <li>
+        <button class="submit">Login</button>
+      </li>
+    </ul>
+  </form>
+</div>
