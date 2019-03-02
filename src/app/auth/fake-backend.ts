@@ -1,57 +1,57 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
-import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
+import { mergeMap } from 'rxjs/operators';
 // reference http://jasonwatmore.com/post/2018/09/07/angular-6-basic-http-authentication-tutorial-example
+
+import { AngularFirestore } from '@angular/fire/firestore';
+
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
 
-    constructor() { }
+    constructor(private db: AngularFirestore) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        let testUser = { id: 1, username: 'test', password: 'test', firstName: 'Test', lastName: 'User' };
 
         // wrap in delayed observable to simulate server api call
         return of(null).pipe(mergeMap(() => {
 
             // authenticate
             if (request.url.endsWith('/users/authenticate') && request.method === 'POST') {
-                if (request.body.username === testUser.username && request.body.password === testUser.password) {
-                    // if login details are valid return user details
-                    let body = {
-                        id: testUser.id,
-                        username: testUser.username,
-                        firstName: testUser.firstName,
-                        lastName: testUser.lastName
-                    };
-                    return of(new HttpResponse({ status: 200, body }));
-                } else {
-                    // else return 400 bad request
-                    return throwError({ error: { message: 'Username or password is incorrect' } });
-                }
+                return this.doQuery(request.body).pipe(mergeMap((data) => {
+                    if (data.error) {
+                        return throwError(data);
+                    } else {
+                        const body = data;
+                        return of(new HttpResponse({ status: 200, body }));
+                    }
+                }));
+            } else {
+                // pass through any requests not handled above
+                return next.handle(request);
             }
+        }));
+    }
 
-            // get users
-            if (request.url.endsWith('/users') && request.method === 'GET') {
-                    // check for fake auth token in header and return users if valid, this security 
-                    // is implemented server side in a real application
-                    if (request.headers.get('Authorization') === `Basic ${window.btoa('test:test')}`) {
-                    return of(new HttpResponse({ status: 200, body: [testUser] }));
-                } else {
-                    // return 401 not authorised if token is null or invalid
-                    return throwError({ status: 401, error: { message: 'Unauthorised' } });
-                }
-            }
-
-            // pass through any requests not handled above
-            return next.handle(request);
-            
-        }))
-
-        // call materialize and dematerialize to ensure delay even if an error is thrown (https://github.com/Reactive-Extensions/RxJS/issues/648)
-        .pipe(materialize())
-        .pipe(delay(500))
-        .pipe(dematerialize());
+    doQuery(request: any): Observable<any> {
+        return Observable.create(observer => {
+            this.db.collection('users', ref => ref.where('username', '==', request.username)
+                .where('password', '==', request.password)).get().subscribe(retval => {
+                    const doc = retval.docs[0];
+                    if (!retval.empty) {
+                        const data = doc.data();
+                        const body = {
+                            id: data.id,
+                            username: data.username,
+                            role: data.role
+                        };
+                        observer.next(body);
+                    } else {
+                        observer.next({ error: { message: 'Username or password is incorrect' } });
+                    }
+                    observer.complete();
+                });
+        });
     }
 }
 

@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
-// basic authentication 
-
+// basic authentication guard
 @Injectable({
   providedIn: 'root'
 })
