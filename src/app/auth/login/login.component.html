@@ -1,4 +1,4 @@
-<div class="center">
+<div class="container center">
   <div *ngIf="error" class="invalid-feedback">{{error}}</div>
   <form [formGroup]="loginForm" #f="ngForm" (ngSubmit)="onAuthenticate(f)" novalidate>
     <ul>

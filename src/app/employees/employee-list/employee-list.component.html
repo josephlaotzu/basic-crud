@@ -1,3 +1,29 @@
-<p>
-  employee-list works!
-</p>
+<div class="container">
+  <a routerLink="/employees/add">[Add]</a>
+  <table class="table">
+    <tr>
+      <th>Name</th>
+      <th>Primary Address</th>
+      <th>Primary Contact Info</th>
+      <th>Age</th>
+      <th># of Years in the Company</th>
+      <th></th>
+    </tr>
+    <tr *ngFor="let item of employees | async">
+      <td>{{item.firstname}} {{item.lastname}}</td>
+      <td>
+        <span *ngFor="let address of item.addressInfo">
+          <span *ngIf='address.isPrimary'>{{address.street}}, {{address.city}}</span>
+        </span>
+      </td>
+      <td>
+        <span *ngFor="let contact of item.contactInfo">
+          <span *ngIf='contact.isPrimary'>{{contact.value}}</span>
+        </span>
+      </td>
+      <td>{{getAge(item.birthday)}}</td>
+      <td>{{getTenure(item.dateHired)}}</td>
+      <td><a routerLink="/employees/{{item.id}}/detail">[Edit]</a> | <a (click)="deleteEmployee(item.id)">[Delete]</a></td>
+    </tr>
+  </table>
+</div>
