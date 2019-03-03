@@ -1,5 +1,5 @@
 <div class="container">
-  <a routerLink="/employees/add">[Add]</a>
+  <a routerLink="/employees/add" *ngIf="isAdmin | async">[Add]</a>
   <table class="table">
     <tr>
       <th>Name</th>
@@ -23,7 +23,8 @@
       </td>
       <td>{{getAge(item.birthday)}}</td>
       <td>{{getTenure(item.dateHired)}}</td>
-      <td><a routerLink="/employees/{{item.id}}/detail">[Edit]</a> | <a (click)="deleteEmployee(item.id)" style="cursor: pointer">[Delete]</a></td>
+      <td *ngIf="isAdmin | async"><a routerLink='/employees/show/{{item.id}}'>[Show]</a> | <a routerLink="/employees/edit/{{item.id}}">[Edit]</a> | <a (click)="deleteEmployee(item.id)" style="cursor: pointer">[Delete]</a></td>
+      <td *ngIf="!(isAdmin | async)"><a routerLink='/employees/show/{{item.id}}'>[Show]</a></td>
     </tr>
   </table>
 </div>

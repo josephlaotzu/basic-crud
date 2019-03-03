@@ -1,6 +1,4 @@
-
-<!-- <button routerLink="/login"> Employees </button> -->
-<!-- <button routerLink="/employees"> Employees </button>
-<button routerLink="/employees/detail"> Employees </button> -->
-
-<router-outlet></router-outlet>
+<div class="container">
+  <a (click)="logout()" *ngIf="loggedIn | async" style="cursor:pointer;float:right">[Logout]</a>
+  <router-outlet></router-outlet>
+</div>

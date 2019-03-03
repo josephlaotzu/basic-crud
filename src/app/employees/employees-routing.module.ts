@@ -8,11 +8,18 @@ const routes: Routes = [
     path: '',
     component: EmployeeListComponent
   }, {
-    path: ':id/detail',
-    component: EmployeeDetailComponent
+    path: 'edit/:id',
+    component: EmployeeDetailComponent,
+    data: { role: 'admin' } // basic role guard
   }, {
     path: 'add',
-    component: EmployeeDetailComponent
+    component: EmployeeDetailComponent,
+    data: { role: 'admin' }
+  },
+  {
+    path: 'show/:id',
+    component: EmployeeDetailComponent,
+    data: { readonly: true }
   }
 ];
 

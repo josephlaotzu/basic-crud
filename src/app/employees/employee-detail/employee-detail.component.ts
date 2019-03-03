@@ -5,6 +5,7 @@ import { EmployeesService } from '../employees.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-employee-detail',
@@ -19,8 +20,13 @@ export class EmployeeDetailComponent implements OnInit {
   submitted: boolean;
   id: string;
   loading = true;
+  readonly: Observable<boolean>;
   constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router,
-    private employeeService: EmployeesService, private a: AngularFirestore, private location: Location) { }
+    private employeeService: EmployeesService, private a: AngularFirestore, private location: Location) {
+    route.data.pipe().subscribe(rd => {
+      this.readonly = rd.readonly;
+    })
+  }
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -39,7 +45,7 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   buildForm(data) {
-    data.contactInfo = data.contactInfo ? data.contactInfo : [{value: ''}]
+    data.contactInfo = data.contactInfo ? data.contactInfo : [{ value: '' }]
     data.addressInfo = data.addressInfo ? data.addressInfo : [{}]
     this.employeeForm = this.formBuilder.group({
       firstname: [data.firstname || '', Validators.required],
