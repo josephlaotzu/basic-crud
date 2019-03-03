@@ -23,7 +23,7 @@
       </td>
       <td>{{getAge(item.birthday)}}</td>
       <td>{{getTenure(item.dateHired)}}</td>
-      <td><a routerLink="/employees/{{item.id}}/detail">[Edit]</a> | <a (click)="deleteEmployee(item.id)">[Delete]</a></td>
+      <td><a routerLink="/employees/{{item.id}}/detail">[Edit]</a> | <a (click)="deleteEmployee(item.id)" style="cursor: pointer">[Delete]</a></td>
     </tr>
   </table>
 </div>

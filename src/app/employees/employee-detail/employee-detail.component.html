@@ -1,7 +1,6 @@
 <div class="container" *ngIf="!loading">
   <form [formGroup]="employeeForm" #f="ngForm" (ngSubmit)="onSave(f)" novalidate>
     <a class="submit" (click)="onSave(f)" type="submit">[Save]</a>
-    <!-- <a class="delete">[Delete]</a> -->
     <div class="row">
       <div class="col-md-6">
         <div class="form-group row">
@@ -79,7 +78,9 @@
       </div>
       <div class="col-md-6">
         <div class="form-group row">
-          <div class="col-sm-12"><label class="col-form-label" for="contactInfo">Contact Info:</label>[Add]</div>
+          <div class="col-sm-12"><label class="col-form-label" for="contactInfo">Contact Info:</label>
+          <a (click)="addContacts()" style="cursor:pointer">[Add]</a>
+          </div>
           <table class="table" formArrayName="contactInfo">
             <tr>
               <td>Value:</td>
@@ -89,34 +90,39 @@
             <tr *ngFor="let contact of contactInfoArray.controls; let i = index" [formGroupName]='i'>
               <td> <input type="text" class="form-control" formControlName="value"></td>
               <td>
-                  <label class="radio-inline"><input type="radio" name="isPrimary" value="true" checked formControlName="isPrimary">YES</label>
-                  <label class="radio-inline"><input type="radio" name="isPrimary" value="false" formControlName="isPrimary">NO</label>
+                <label class="radio-inline"><input type="radio" value="true" checked
+                    formControlName="isPrimary">YES</label>
+                <label class="radio-inline"><input type="radio" value="false" formControlName="isPrimary">NO</label>
               </td>
-              <td>[X]</td>
+              <td><a (click)="removeContact(i)" style="cursor:pointer">[X]</a></td>
             </tr>
           </table>
         </div>
         <div class="form-group row">
-            <div class="col-sm-12"><label class="col-form-label" for="addressInfo">Address Info:</label>[Add]</div>
-            <table class="table" formArrayName="addressInfo">
-              <tr>
-                <td>Street:</td>
-                <td>City:</td>
-                <td>isPrimary?:</td>
-                <td></td>
-              </tr>
-              <tr *ngFor="let address of addressInfoArray.controls; let i = index" [formGroupName]='i'>
-                <td> <input type="text" class="form-control" formControlName="street"></td>
-                <td> <input type="text" class="form-control" formControlName="city"></td>
-                <td>
-                    <label class="radio-inline"><input type="radio" name="isPrimary" value="true" checked formControlName="isPrimary">YES</label>
-                    <label class="radio-inline"><input type="radio" name="isPrimary" value="false" formControlName="isPrimary">NO</label>
-                </td>
-                <td>[X]</td>
-              </tr>
-            </table>
+          <div class="col-sm-12"><label class="col-form-label" for="addressInfo">Address Info:</label>
+            <a (click)="addAddress()" style="cursor:pointer">[Add]</a>
           </div>
+          <table class="table" formArrayName="addressInfo">
+            <tr>
+              <td>Street:</td>
+              <td>City:</td>
+              <td>isPrimary?:</td>
+              <td></td>
+            </tr>
+            <tr *ngFor="let address of addressInfoArray.controls; let i = index" [formGroupName]='i'>
+              <td> <input type="text" class="form-control" formControlName="street"></td>
+              <td> <input type="text" class="form-control" formControlName="city"></td>
+              <td>
+                <label class="radio-inline"><input type="radio" value="true" checked
+                    formControlName="isPrimary">YES</label>
+                <label class="radio-inline"><input type="radio" value="false" formControlName="isPrimary">NO</label>
+              </td>
+              <td><a (click)="removeAdress(i)" style="cursor:pointer">[X]</a></td>
+            </tr>
+          </table>
+        </div>
       </div>
     </div>
   </form>
+  <a (click)="goBack()" style="cursor:pointer">[Back]</a>
 </div>
