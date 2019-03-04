@@ -90,9 +90,9 @@
             <tr *ngFor="let contact of contactInfoArray.controls; let i = index" [formGroupName]='i'>
               <td> <input type="text" class="form-control" formControlName="value" [readonly]="readonly"></td>
               <td>
-                <label class="radio-inline"><input type="radio" value="true" checked formControlName="isPrimary"
+                <label class="radio-inline"><input type="radio" [value]="true" checked formControlName="isPrimary"
                     [readonly]="readonly">YES</label>
-                <label class="radio-inline"><input type="radio" value="false" formControlName="isPrimary"
+                <label class="radio-inline"><input type="radio" [value]="false" formControlName="isPrimary"
                     [readonly]="readonly">NO</label>
               </td>
               <td><a (click)="removeContact(i)" style="cursor:pointer" *ngIf="!readonly">[X]</a></td>
@@ -114,9 +114,9 @@
               <td> <input type="text" class="form-control" formControlName="street" [readonly]="readonly"></td>
               <td> <input type="text" class="form-control" formControlName="city" [readonly]="readonly"></td>
               <td>
-                <label class="radio-inline"><input type="radio" value="true" checked formControlName="isPrimary"
+                <label class="radio-inline"><input type="radio" [value]="true" checked formControlName="isPrimary"
                     [readonly]="readonly">YES</label>
-                <label class="radio-inline"><input type="radio" value="false" formControlName="isPrimary"
+                <label class="radio-inline"><input type="radio" [value]="false" formControlName="isPrimary"
                     [readonly]="readonly">NO</label>
               </td>
               <td><a (click)="removeAdress(i)" style="cursor:pointer" *ngIf="!readonly">[X]</a></td>
