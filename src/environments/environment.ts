@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  baseURL: 'http://localhost',
   firebase: {
     apiKey: 'AIzaSyATI4wzQyJxeugx8RZmItM-UaO_kyUqQDI',
     authDomain: 'intac-crud.firebaseapp.com',

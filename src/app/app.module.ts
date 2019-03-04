@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 
 import { BasicAuthInterceptor } from './auth/basic-auth.interceptor';
 import { ErrorInterceptor } from './auth/error.interceptor';
-import { fakeBackendProvider } from './auth/fake-backend';
+import { backendProvider } from './auth/backend.interceptor';
 
 // db from firebase
 import { AngularFireModule } from '@angular/fire';
@@ -31,7 +31,7 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
     { provide: FirestoreSettingsToken, useValue: {} },
 
     // provider used to create fake backend
-    fakeBackendProvider
+    backendProvider
   ],
   bootstrap: [AppComponent]
 })

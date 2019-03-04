@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,7 @@ export class AuthService {
   }
 
   login(username: string, password: string) {
-    return this.http.post<any>(`http://localhost:4000/users/authenticate`, { username, password })
+    return this.http.post<any>(`${environment.baseURL}/users/authenticate`, { username, password })
       .pipe(map(user => {
         // login successful if there's a user in the response
         if (user) {

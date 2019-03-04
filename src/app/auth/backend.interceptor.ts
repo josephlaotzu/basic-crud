@@ -7,7 +7,7 @@ import { mergeMap } from 'rxjs/operators';
 import { AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable()
-export class FakeBackendInterceptor implements HttpInterceptor {
+export class BackendInterceptor implements HttpInterceptor {
 
     constructor(private db: AngularFirestore) { }
 
@@ -17,6 +17,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         return of(null).pipe(mergeMap(() => {
 
             // authenticate
+            console.log(request.url)
             if (request.url.endsWith('/users/authenticate') && request.method === 'POST') {
                 return this.doQuery(request.body).pipe(mergeMap((data) => {
                     if (data.error) {
@@ -55,9 +56,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     }
 }
 
-export let fakeBackendProvider = {
+export let backendProvider = {
     // use fake backend in place of Http service for backend-less development
     provide: HTTP_INTERCEPTORS,
-    useClass: FakeBackendInterceptor,
+    useClass: BackendInterceptor,
     multi: true
 };
