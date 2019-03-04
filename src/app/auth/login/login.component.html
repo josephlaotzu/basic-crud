@@ -1,22 +1,20 @@
 <div class="container center">
   <div *ngIf="error" class="invalid-feedback">{{error}}</div>
   <form [formGroup]="loginForm" #f="ngForm" (ngSubmit)="onAuthenticate(f)" novalidate>
-    <ul>
-      <li>
-        <input type="text" formControlName="username" required placeholder="username">
+      <div class="form-group">
+        <input type="text" class="form-control" formControlName="username" required placeholder="username">
         <div *ngIf="submitted && f.control.controls.username.invalid" class="invalid-feedback">
           <div *ngIf="f.control.controls.username.errors.required">Username is required</div>
         </div>
-      </li>
-      <li>
-        <input type="password" formControlName="password" required placeholder="password">
+      </div>
+      <div class="form-group">
+        <input type="password" class="form-control" formControlName="password" required placeholder="password">
         <div *ngIf="submitted && f.control.controls.password.invalid" class="invalid-feedback">
           <div *ngIf="f.control.controls.password.errors.required">Password is required</div>
         </div>
-      </li>
-      <li>
-        <button [disabled]="loading" class="submit">Login</button>
-      </li>
-    </ul>
+      </div>
+      <div>
+        <button [disabled]="loading" type="submit" class="btn btn-primary">Login</button>
+      </div>
   </form>
 </div>
