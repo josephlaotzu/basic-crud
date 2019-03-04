@@ -1,6 +1,6 @@
 <div class="container" *ngIf="!loading">
   <form [formGroup]="employeeForm" #f="ngForm" (ngSubmit)="onSave(f)" novalidate>
-    <a class="submit" (click)="onSave(f)" type="submit" *ngIf="!readonly">[Save]</a>
+    <a class="submit" (click)="onSave(f)" style="cursor:pointer" *ngIf="!readonly">[Save]</a>
     <div class="row">
       <div class="col-md-6">
         <div class="form-group row">
@@ -79,7 +79,7 @@
       <div class="col-md-6">
         <div class="form-group row">
           <div class="col-sm-12"><label class="col-form-label" for="contactInfo">Contact Info:</label>
-            <a (click)="addContacts()" style="cursor:pointer">[Add]</a>
+            <a (click)="addContacts()" style="cursor:pointer" *ngIf="!readonly">[Add]</a>
           </div>
           <table class="table" formArrayName="contactInfo">
             <tr>
@@ -95,13 +95,13 @@
                 <label class="radio-inline"><input type="radio" value="false" formControlName="isPrimary"
                     [readonly]="readonly">NO</label>
               </td>
-              <td><a (click)="removeContact(i)" style="cursor:pointer">[X]</a></td>
+              <td><a (click)="removeContact(i)" style="cursor:pointer" *ngIf="!readonly">[X]</a></td>
             </tr>
           </table>
         </div>
         <div class="form-group row">
           <div class="col-sm-12"><label class="col-form-label" for="addressInfo">Address Info:</label>
-            <a (click)="addAddress()" style="cursor:pointer">[Add]</a>
+            <a (click)="addAddress()" style="cursor:pointer" *ngIf="!readonly">[Add]</a>
           </div>
           <table class="table" formArrayName="addressInfo">
             <tr>
@@ -119,7 +119,7 @@
                 <label class="radio-inline"><input type="radio" value="false" formControlName="isPrimary"
                     [readonly]="readonly">NO</label>
               </td>
-              <td><a (click)="removeAdress(i)" style="cursor:pointer">[X]</a></td>
+              <td><a (click)="removeAdress(i)" style="cursor:pointer" *ngIf="!readonly">[X]</a></td>
             </tr>
           </table>
         </div>
