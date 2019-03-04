@@ -87,13 +87,13 @@ export class EmployeeDetailComponent implements OnInit {
         if (item.hasOwnProperty('value')) {
           holder.push(this.formBuilder.group({
             value: [item.value || '', ''],
-            isPrimary: [item.isPrimary || 'true', '']
+            isPrimary: [item.isPrimary || true, '']
           }))
         } else {
           holder.push(this.formBuilder.group({
             street: [item.street || '', ''],
             city: [item.city || '', ''],
-            isPrimary: [item.isPrimary || 'true', '']
+            isPrimary: [item.isPrimary || true, '']
           }))
         }
       });
@@ -111,7 +111,7 @@ export class EmployeeDetailComponent implements OnInit {
     this.contactInfoArray.push(
       this.formBuilder.group({
         value: ['', '',],
-        isPrimary: ['false', '']
+        isPrimary: [false, '']
       })
     );
   }
@@ -121,7 +121,7 @@ export class EmployeeDetailComponent implements OnInit {
       this.formBuilder.group({
         street: ['', ''],
         city: ['', ''],
-        isPrimary: ['false', '']
+        isPrimary: [false, '']
       })
     );
   }
