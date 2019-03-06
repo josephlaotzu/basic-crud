@@ -6,6 +6,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Observable } from 'rxjs';
+import { LoaderService } from '../../common/loader.service';
 
 @Component({
   selector: 'app-employee-detail',
@@ -19,10 +20,11 @@ export class EmployeeDetailComponent implements OnInit {
   addressInfoArray: FormArray;
   submitted: boolean;
   id: string;
-  loading = true;
+  loading: Observable<boolean>;
   readonly: Observable<boolean>;
-  constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router,
+  constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router, private loader: LoaderService,
     private employeeService: EmployeesService, private a: AngularFirestore, private location: Location) {
+    this.loading = this.loader.loading;
     route.data.pipe().subscribe(rd => {
       this.readonly = rd.readonly;
     })
@@ -30,17 +32,18 @@ export class EmployeeDetailComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
+    this.loader.startLoading();
     // if edit get current employee data
     if (this.id) {
       this.employeeService.getEmployeeData(this.id).then(sq => {
-        this.loading = false;
+        this.loader.stopLoading();
         const doc = sq.docs[0];
         const data = doc.data();
         this.buildForm(data);
       });
     } else {
       this.buildForm({});
-      this.loading = false;
+      this.loader.stopLoading();
     }
   }
 

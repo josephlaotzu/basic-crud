@@ -1,4 +1,4 @@
-<div class="container" *ngIf="!loading">
+<div class="container" *ngIf="!(loading | async)">
   <form [formGroup]="employeeForm" #f="ngForm" (ngSubmit)="onSave(f)" novalidate>
     <a class="submit" (click)="onSave(f)" style="cursor:pointer" *ngIf="!readonly">[Save]</a>
     <div class="row">
