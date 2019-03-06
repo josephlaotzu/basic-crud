@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { EmployeesService } from '../employees.service';
 import { Employees } from '../employees';
 import { Observable } from 'rxjs';
-import { AuthService } from '../../auth/auth.service'
+import { AuthService } from '../../auth/auth.service';
+import { LoaderService } from '../../common/loader.service';
 
 @Component({
   selector: 'app-employee-list',
@@ -13,7 +14,8 @@ export class EmployeeListComponent implements OnInit {
 
   employees: Observable<Employees[]>;
   isAdmin: Observable<boolean>;
-  constructor(private employeesService: EmployeesService, private auth: AuthService) { }
+  constructor(private employeesService: EmployeesService, private auth: AuthService,
+    private loader: LoaderService) { }
 
   ngOnInit() {
     this.employees = this.employeesService.getAllEmployees();
@@ -42,8 +44,10 @@ export class EmployeeListComponent implements OnInit {
   deleteEmployee(id) {
     const c = confirm('Are you sure?');
     if (c === true) {
+      this.loader.startLoading();
       this.employeesService.deleteEmployee(id).then(() => {
         console.log('deleted');
+        this.loader.stopLoading();
       });
     }
   }
