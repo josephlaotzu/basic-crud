@@ -9,22 +9,26 @@
       <th># of Years in the Company</th>
       <th></th>
     </tr>
-    <tr *ngFor="let item of employees | async">
+    <ng-container *ngIf="employees | async as employees$; else loading">
+      <tr *ngFor="let item of employees$">
       <td>{{item.firstname}} {{item.lastname}}</td>
-      <td>
-        <span *ngFor="let address of item.addressInfo">
-          <span *ngIf='address.isPrimary'>{{address.street}}, {{address.city}}</span>
-        </span>
-      </td>
-      <td>
-        <span *ngFor="let contact of item.contactInfo">
-          <span *ngIf='contact.isPrimary'>{{contact.value}}</span>
-        </span>
-      </td>
-      <td>{{getAge(item.birthday)}}</td>
-      <td>{{getTenure(item.dateHired)}}</td>
-      <td *ngIf="isAdmin | async"><a routerLink='/employees/show/{{item.id}}'>[Show]</a> | <a routerLink="/employees/edit/{{item.id}}">[Edit]</a> | <a (click)="deleteEmployee(item.id)" style="cursor: pointer">[Delete]</a></td>
-      <td *ngIf="!(isAdmin | async)"><a routerLink='/employees/show/{{item.id}}'>[Show]</a></td>
-    </tr>
+        <td>
+          <span *ngFor="let address of item.addressInfo">
+            <span *ngIf='address.isPrimary'>{{address.street}}, {{address.city}}</span>
+          </span>
+        </td>
+        <td>
+          <span *ngFor="let contact of item.contactInfo">
+            <span *ngIf='contact.isPrimary'>{{contact.value}}</span>
+          </span>
+        </td>
+        <td>{{getAge(item.birthday)}}</td>
+        <td>{{getTenure(item.dateHired)}}</td>
+        <td *ngIf="isAdmin | async"><a routerLink='/employees/show/{{item.id}}'>[Show]</a> | <a routerLink="/employees/edit/{{item.id}}">[Edit]</a> | <a (click)="deleteEmployee(item.id)" style="cursor: pointer">[Delete]</a></td>
+        <td *ngIf="!(isAdmin | async)"><a routerLink='/employees/show/{{item.id}}'>[Show]</a></td>
+      </tr>
+      <span *ngIf="employees$.length == 0">No records</span>
+    </ng-container>
+    <ng-template #loading>loading records...</ng-template>
   </table>
 </div>
