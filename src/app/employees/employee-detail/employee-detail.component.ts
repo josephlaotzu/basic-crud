@@ -70,10 +70,12 @@ export class EmployeeDetailComponent implements OnInit {
   onSave(f: NgForm) {
     this.submitted = true;
     if (f.valid) {
+      this.loader.startLoading();
       f.value.birthday = new Date(f.value.birthday); // convert to firebase supported timestamp value
       f.value.dateHired = new Date(f.value.dateHired);
       this.employeeService.saveEmployeeDetails(this.id, f.value).then(() => {
         console.log('saved');
+        this.loader.stopLoading();
         this.router.navigateByUrl('/employees');
       });
     }
