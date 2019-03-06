@@ -1,4 +1,5 @@
 <div class="container">
-  <a (click)="logout()" *ngIf="loggedIn | async" style="cursor:pointer;float:right">[Logout]</a>
+  <app-loader></app-loader> <!-- should be part of header global component -->
+  <a (click)="logout()" *ngIf="loggedIn | async" style="cursor:pointer;float:right">[Logout]</a> <!-- should be part of header global component -->
   <router-outlet></router-outlet>
 </div>

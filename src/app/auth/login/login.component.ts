@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import { AuthService } from '../auth.service';
+import { LoaderService } from '../../common/loader.service';
 
 @Component({
   selector: 'app-login',
@@ -15,13 +16,13 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   returnUrl: string;
   submitted: boolean;
-  loading: boolean;
   error = '';
 
   constructor(private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authenticationService: AuthService) { }
+    private authenticationService: AuthService,
+    private loader: LoaderService) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -44,16 +45,17 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this.loading = true;
+    this.loader.startLoading();
     this.authenticationService.login(f.value.username, f.value.password)
       .pipe(first())
       .subscribe(
         data => {
           this.router.navigate([this.returnUrl]);
+          this.loader.stopLoading();
         },
         error => {
           this.error = error;
-          this.loading = false;
+          this.loader.stopLoading();
         });
   }
 

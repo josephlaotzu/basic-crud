@@ -17,7 +17,6 @@ export class BackendInterceptor implements HttpInterceptor {
         return of(null).pipe(mergeMap(() => {
 
             // authenticate
-            console.log(request.url)
             if (request.url.endsWith('/users/authenticate') && request.method === 'POST') {
                 return this.doQuery(request.body).pipe(mergeMap((data) => {
                     if (data.error) {
